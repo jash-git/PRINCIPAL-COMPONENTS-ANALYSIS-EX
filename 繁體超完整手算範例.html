@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://www.itread01.com/content/1545419720.html -->
+<html class="js" lang="zh-TW" prefix="og: http://ogp.me/ns#"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="profile" href="https://gmpg.org/xfn/11">
+    <title>主成分分析PCA以及特徵值和特徵向量的意義 - IT閱讀</title>
+<script async="" src="./繁體超完整手算範例_files/17812.js.下載"></script><script async="" src="./繁體超完整手算範例_files/17811.js.下載"></script><script async="" src="./繁體超完整手算範例_files/17522.js.下載"></script><script async="" src="./繁體超完整手算範例_files/17521.js.下載"></script><script>document.documentElement.className = document.documentElement.className.replace("no-js","js");</script>
+<link href="./繁體超完整手算範例_files/atom-one-dark.min.css" rel="stylesheet">
+<meta name="referrer" content="no-referrer-when-downgrade">
+<meta name="referrer" content="never">
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="hueman-main-style-css" href="./繁體超完整手算範例_files/main.info.css" type="text/css" media="all">
+<link href="./繁體超完整手算範例_files/prettify.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="./繁體超完整手算範例_files/prettify(1).css">
+<style id="hueman-main-style-inline-css" type="text/css">
+body { font-family:'Source Sans Pro', Arial, sans-serif;font-size:1.00rem }@media only screen and (min-width: 720px) {
+        .nav > li { font-size:1.00rem; }
+      }::selection { background-color: #fca61b; }
+::-moz-selection { background-color: #fca61b; }a,.themeform label .required,#flexslider-featured .flex-direction-nav .flex-next:hover,#flexslider-featured .flex-direction-nav .flex-prev:hover,.post-hover:hover .post-title a,.post-title a:hover,.sidebar.s1 .post-nav li a:hover i,.content .post-nav li a:hover i,.post-related a:hover,.sidebar.s1 .widget_rss ul li a,#footer .widget_rss ul li a,.sidebar.s1 .widget_calendar a,#footer .widget_calendar a,.sidebar.s1 .alx-tab .tab-item-category a,.sidebar.s1 .alx-posts .post-item-category a,.sidebar.s1 .alx-tab li:hover .tab-item-title a,.sidebar.s1 .alx-tab li:hover .tab-item-comment a,.sidebar.s1 .alx-posts li:hover .post-item-title a,#footer .alx-tab .tab-item-category a,#footer .alx-posts .post-item-category a,#footer .alx-tab li:hover .tab-item-title a,#footer .alx-tab li:hover .tab-item-comment a,#footer .alx-posts li:hover .post-item-title a,.comment-tabs li.active a,.comment-awaiting-moderation,.child-menu a:hover,.child-menu .current_page_item > a,.wp-pagenavi a{ color: #fca61b; }.themeform input[type="submit"],.themeform button[type="submit"],.sidebar.s1 .sidebar-top,.sidebar.s1 .sidebar-toggle,#flexslider-featured .flex-control-nav li a.flex-active,.post-tags a:hover,.sidebar.s1 .widget_calendar caption,#footer .widget_calendar caption,.author-bio .bio-avatar:after,.commentlist li.bypostauthor > .comment-body:after,.commentlist li.comment-author-admin > .comment-body:after{ background-color: #fca61b; }.post-format .format-container { border-color: #fca61b; }.sidebar.s1 .alx-tabs-nav li.active a,#footer .alx-tabs-nav li.active a,.comment-tabs li.active a,.wp-pagenavi a:hover,.wp-pagenavi a:active,.wp-pagenavi span.current{ border-bottom-color: #fca61b!important; }.sidebar.s2 .post-nav li a:hover i,
+.sidebar.s2 .widget_rss ul li a,
+.sidebar.s2 .widget_calendar a,
+.sidebar.s2 .alx-tab .tab-item-category a,
+.sidebar.s2 .alx-posts .post-item-category a,
+.sidebar.s2 .alx-tab li:hover .tab-item-title a,
+.sidebar.s2 .alx-tab li:hover .tab-item-comment a,
+.sidebar.s2 .alx-posts li:hover .post-item-title a { color: #3bcfe2; }
+.sidebar.s2 .sidebar-top,.sidebar.s2 .sidebar-toggle,.post-comments,.jp-play-bar,.jp-volume-bar-value,.sidebar.s2 .widget_calendar caption{ background-color: #3bcfe2; }.sidebar.s2 .alx-tabs-nav li.active a { border-bottom-color: #3bcfe2; }
+.post-comments span:before { border-right-color: #3bcfe2; }
+      .search-expand,
+              #nav-topbar.nav-container { background-color: #303030}@media only screen and (min-width: 720px) {
+                #nav-topbar .nav ul { background-color: #303030; }
+              }.is-scrolled #header .nav-container.desktop-sticky,
+              .is-scrolled #header .search-expand { background-color: #303030; background-color: rgba(48,48,48,0.90) }.is-scrolled .topbar-transparent #nav-topbar.desktop-sticky .nav ul { background-color: #303030; background-color: rgba(48,48,48,0.95) }#header { background-color: #363944; }
+@media only screen and (min-width: 720px) {
+  #nav-header .nav ul { background-color: #363944; }
+}
+        .is-scrolled #header #nav-mobile { background-color: #454e5c; background-color: rgba(69,78,92,0.90) }body { background-color: #eaeaea; }
+		.entry-inner h1{ font-size:20px; font-weight:bold;}
+		.entry-inner h2,h3,h4{ font-size:18px; font-weight:bold;}
+</style>
+ 
+
+<link rel="stylesheet" id="hueman-font-awesome-css" href="./繁體超完整手算範例_files/font-awesome.min.css" type="text/css" media="all">
+<script type="text/javascript">
+/* <![CDATA[ */
+var monsterinsights_frontend = {"js_events_tracking":"true","is_debug_mode":"false","download_extensions":"","inbound_paths":"","home_url":"https:\/\/www.itread01.com","track_download_as":"event","internal_label":"int","hash_tracking":"false"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./繁體超完整手算範例_files/frontend.min.js.下載"></script>
+<script type="text/javascript" src="./繁體超完整手算範例_files/jquery.js.下載"></script>
+<script type="text/javascript" src="./繁體超完整手算範例_files/jsjquery-migrate.min.js.下載"></script>
+<script src="./繁體超完整手算範例_files/highlight.js.下載"></script>
+<link rel="stylesheet" type="text/css" href="./繁體超完整手算範例_files/default.css">
+<meta name="generator" content="WordPress 4.8.2">
+<!--[if lt IE 9]>
+<script src="/img/css/js/html5shiv-printshiv.min.js"></script>
+<script src="/img/css/js/selectivizr.js"></script>
+<![endif]-->
+<style>.ios7.web-app-mode.has-fixed header{ background-color: rgba(45,53,63,.88);}</style></head>
+<body data-rsssl="1" class="post-template-default single single-post postid-43193 single-format-standard wp-custom-logo col-2cl full-width topbar-enabled header-desktop-sticky header-mobile-sticky chrome hu-smoothscroll">
+    <div id="wrapper">
+        <header id="header" class="specific-mobile-menu-on one-mobile-menu mobile_menu header-ads-desktop header-ads-mobile topbar-transparent no-header-img fixed-header-on" style="height: 175px; padding-top: 50px;">
+        <nav class="nav-container group mobile-menu mobile-sticky " id="nav-mobile" data-menu-id="header-1">
+  <div class="mobile-title-logo-in-header"><p class="site-title"><a class="custom-logo-link" href="https://www.itread01.com/" rel="home" title="首頁"><img src="./繁體超完整手算範例_files/logo.png"></a></p>
+                </div>
+        <div class="ham__navbar-toggler-two collapsed" title="Menu" aria-expanded="false">
+          <div class="ham__navbar-span-wrapper">
+            <span class="line line-1"></span>
+            <span class="line line-2"></span>
+            <span class="line line-3"></span>
+          </div>
+        </div>
+            
+      <div class="nav-text"></div>
+      <div class="nav-wrap container">
+                  <ul class="nav container-inner group mobile-search">
+                            <li>
+                  <form class="searchform themeform" onsubmit="return searchKw(this)">
+	<div>
+		<input type="text" name="kw" class="search" onblur="if(this.value==&#39;&#39;)this.value=&#39;輸入關鍵字後搜尋&#39;;" onfocus="if(this.value==&#39;輸入關鍵字後搜尋&#39;)this.value=&#39;&#39;;" value="輸入關鍵字後搜尋">
+	</div>
+</form>    
+<script>function searchKw(c){var b=c.getElementsByTagName("input")[0],a=b.value.replace(/^\s+|\s+$/g,"");a=a.replace(/['"]/g,"");location.href="https://www.itread01.com/search/"+encodeURIComponent(a)+"";return false};</script>            </li>
+                      </ul>
+                <ul id="menu-top" class="nav container-inner group">
+                 <li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.itread01.com/">首頁</a></li>
+				<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.itread01.com/%E7%A7%91%E6%8A%80/">科技</a></li>
+						  <li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.itread01.com/info/">程式語言</a></li>
+ 
+</ul>      </div>
+</nav><!--/#nav-topbar-->  
+        <nav class="nav-container group desktop-menu desktop-sticky sticky-visible" id="nav-topbar" data-menu-id="header-2" style="max-width: 1903px;">
+    <div class="nav-text"></div>
+  <div class="topbar-toggle-down">
+    <i class="fas fa-angle-double-down" aria-hidden="true" data-toggle="down" title="展開功能表清單"></i>
+    <i class="fas fa-angle-double-up" aria-hidden="true" data-toggle="up" title="折疊功能表清單"></i>
+  </div>
+  <div class="nav-wrap container">
+    <ul id="menu-footer" class="nav container-inner group"> 
+    <li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="https://www.itread01.com/" rel="nofollow">首頁</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="https://www.itread01.com/study/mysql-tutorial.html">MySQL教學</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="https://www.itread01.com/t/%E7%B6%B2%E7%AB%99%E6%8A%80%E5%B7%A7/1/">網站技巧</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="https://www.itread01.com/t/%E7%B6%B2%E8%B7%AF%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88/1/">網路程式設計</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="https://www.itread01.com/t/%E8%BB%9F%E9%AB%94%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88/1/">軟體程式設計</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="https://www.itread01.com/t/%E8%B3%87%E6%96%99%E5%BA%AB/1/">資料庫</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="https://www.itread01.com/t/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/1/">作業系統</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="https://www.itread01.com/t/%E6%8C%87%E4%BB%A4%E7%A2%BC%E5%B0%88%E6%AC%84/1/">其它</a></li>
+ 
+</ul>  </div>
+      <div id="topbar-header-search" class="container">
+      <div class="container-inner">
+        <div class="toggle-search"><i class="fas fa-search"></i></div>
+        <div class="search-expand">
+          <div class="search-expand-inner"><form class="searchform themeform" onsubmit="return searchKw(this)">
+	<div>
+		<input type="text" class="search" name="kw" onblur="if(this.value==&#39;&#39;)this.value=&#39;輸入關鍵字後搜尋&#39;;" onfocus="if(this.value==&#39;輸入關鍵字後搜尋&#39;)this.value=&#39;&#39;;" value="輸入關鍵字後搜尋">
+	</div>
+</form></div>
+        </div>
+      </div><!--/.container-inner-->
+    </div><!--/.container-->
+  
+</nav><!--/#nav-topbar-->  
+  <div class="container group">
+        <div class="container-inner">
+
+                    <div class="group pad central-header-zone">
+                  <div class="logo-tagline-group">
+                                        <p class="site-title"><a class="custom-logo-link" href="https://www.itread01.com/" rel="home"><img src="./繁體超完整手算範例_files/logo.png"></a></p>
+                                                        </div>
+
+                                        <div id="header-widgets">
+                          <div id="custom_html-2" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><!-- /109765683/728_Banner -->
+ </div></div>                      </div><!--/#header-ads-->
+                                </div>
+                <nav class="nav-container group desktop-menu " id="nav-header" data-menu-id="header-3">
+    <div class="nav-text"><!-- put your mobile menu text here --></div>
+  <div class="nav-wrap container">
+        <ul id="menu-top-1" class="nav container-inner group">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.itread01.com/">首頁</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.itread01.com/%E7%A7%91%E6%8A%80/">科技</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.itread01.com/info/">程式語言</a></li>
+</ul>  </div>
+</nav><!--/#nav-header-->      
+    </div><!--/.container-inner-->
+      </div><!--/.container-->
+</header><!--/#header-->        
+        <div class="container" id="page">
+            <div class="container-inner">
+
+                                <div class="main" style="">
+                    <div class="main-inner group">
+                        
+              <section class="content">
+              <div class="page-title pad group">
+          	    		<ul class="meta-single group">
+    			<li class="category"><a href="https://www.itread01.com/infolist/%E5%85%B6%E4%BB%96/1/">其他</a></li>
+    			    		</ul>
+
+    	
+    </div><!--/.page-title-->
+          <div class="pad group">
+              <article class="post-43193 post type-post status-publish format-standard has-post-thumbnail hentry category-news tag-stripe tag-32305 tag-32306 tag-4550 tag-5237 tag-31545 tag-6260">
+    <div class="post-inner group">
+
+      <h1 class="post-title entry-title">主成分分析PCA以及特徵值和特徵向量的意義</h1>
+<p class="post-byline"><span class="vcard author">
+     <span class="fn"><a href="https://www.itread01.com/infolist/%E5%85%B6%E4%BB%96/1/">其他</a></span>
+   </span> ·
+                            發表 <time class="published" datetime="2018-12-22">2018-12-22</time>
+             
+               </p>
+               <ins id="scupio-sc-4995-17811-847678" class="scupioadslot" style="display: inline-block; width: 100%; height: 100px; position: relative;" data-sca-pub="lRIJBAgyQA==" data-sca-web="4995" data-sca-category="17" data-sca-cid="17811" data-sca-slot-type="PRA" data-sca-status="callback" undefined="2"><iframe name="scupioadframe" marginwidth="0" marginheight="0" frameborder="0" id="scupio-sc-4995-17811-847678_frame" src="./繁體超完整手算範例_files/ad.html" style="box-sizing: content-box; overflow: hidden; border: 0px; padding: 0px; margin: 0px; width: 100%; height: 100px; display: none;"></iframe><span id="viewability_detector_17811" style="position: absolute; z-index: -99999; background-color: transparent; left: 50%; top: 50%; width: 1px; height: 1px;"></span><ins class="scupioadslot" data-sca-pub="lRIJBAgyQA==" data-sca-web="4995" data-sca-category="17" data-sca-cid="17812" data-sca-slot-type="STA" data-sca-status="done" undefined="3" style="display: inline-block; width: 100%; height: 100px; margin: auto; position: relative;"><iframe name="scupioadframe" marginwidth="0" marginheight="0" frameborder="0" id="sc-1579507066136-794740250405_frame" src="./繁體超完整手算範例_files/ad(1).html" style="box-sizing: content-box; overflow: hidden; border: 0px; padding: 0px; margin: 0px; width: 100%; height: 100px;"></iframe><span id="viewability_detector_17812" style="position: absolute; z-index: -99999; background-color: transparent; left: 50%; top: 50%; width: 1px; height: 1px;"></span></ins></ins>
+<script async="" src="./繁體超完整手算範例_files/ad.js.下載"></script>
+<script>
+(function(s, c, u, p, i, o, a, d) {
+    'use strict';
+    var z=function(t,e,r){var a,n=document.createElement('ins'),s=n.style;for(a in n.className='scupioadslot',r&&(n.id=r),t)t.hasOwnProperty(a)&&(s[a]=t[a]);for(a in e)e.hasOwnProperty(a)&&n.setAttribute('data-sca-'+a,e[a]);return n};
+    (d = s.Scupioads = s.Scupioads || []).push({
+        id: u,
+        callback: function() {
+            p = c.getElementById(u);
+            i = p.style;
+            o = 'inline-block';
+            p.appendChild(z({
+                display: o,
+                width: '100%',
+                height: '100px',
+                margin: 'auto'
+            }, {
+                'pub': 'lRIJBAgyQA==',
+                'web': '4995',
+                'category': '17',
+                'cid': '17812',
+                'slot-type': 'STA'
+            }));
+            i.width = '100%';
+            i.height = '100px';
+            i.display = o;
+        }
+    });
+    setTimeout(function(){if(!s.Scupioads.init)for(i=d.length-1;0<=i;i--)if(d[i].id===u){d[i].callback(),d[i].callback=function(){};break}},1e3);
+})(window, document, 'scupio-sc-4995-17811-847678');
+</script>
+      
+      <div class="clear"></div>
+ 
+      <div class="entry themeform share">
+        <div class="entry-inner">
+		<div class="htmledit_views">
+                <h3>定義：</h3>
+
+<p>主成分分析（Principal Component Analysis，PCA）， 是一種統計方法。通過正交變換將一組可能存在相關性的變數轉換為一組線性不相關的變數，轉換後的這組變數叫主成分。PCA的思想是將n維特徵對映到k維上（k&lt;n），這k維是全新的正交特徵。這k維特徵稱為主成分，是重新構造出來的k維特徵，而不是簡單地從n維特徵中去除其餘n-k維特徵。</p>
+
+<h3>簡單解釋：</h3>
+
+<p>具體的，假如我們的資料集是n維的，共有m個數據。我們希望將這m個數據的維度從n維降到k維，希望這m個k維的資料集儘可能的代表原始資料集。我們知道資料從n維降到k維肯定會有損失，但是我們希望損失儘可能的小。那麼如何讓這k維的資料儘可能表示原來的資料呢？</p>
+
+<p>我們先看看最簡單的情況，也就是n=2，k=1,也就是將資料從二維降維到一維。資料如下圖。我們希望找到某一個維度方向，它可以代表這兩個維度的資料。圖中列了兩個向量方向，u1和u2，那麼哪個向量可以更好的代表原始資料集呢？從直觀上也可以看出，u1比u2好，因為資料在這個方向上投影后的樣本點之間方差最大。</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" src="./繁體超完整手算範例_files/20181117165113873.png" referrerpolicy="no-referrer"></p>
+
+<h3>&nbsp;例子：</h3>
+
+<p>有兩維資料：</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="43" src="./繁體超完整手算範例_files/d1160924ab18972b920fa4e7efcd7b899e510ae1.jpg" width="156" referrerpolicy="no-referrer"></p>
+
+<p>對X進行歸一化，使X每一行減去其對應的均值，得到：</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="43" src="./繁體超完整手算範例_files/fd039245d688d43f912414df741ed21b0ef43b09.jpg" width="186" referrerpolicy="no-referrer"></p>
+
+<p>求X的協方差矩陣：</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="43" src="./繁體超完整手算範例_files/c9fcc3cec3fdfc0383736495dd3f8794a4c22697.jpg" width="171" referrerpolicy="no-referrer"></p>
+
+<p>求解C的特徵值，利用線性代數知識或是MATLAB中eig函式可以得到：</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="15" src="./繁體超完整手算範例_files/1c950a7b02087bf46d6ad1c4fbd3572c11dfcf1d.jpg" width="58" referrerpolicy="no-referrer"></p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="15" src="./繁體超完整手算範例_files/6609c93d70cf3bc79bcd4bc1d800baa1cc112ac9.jpg" width="58" referrerpolicy="no-referrer"></p>
+
+<p>對應的特徵向量分別是：</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="44" src="./繁體超完整手算範例_files/faf2b2119313b07e6d2cd32505d7912397dd8c0e.jpg" width="101" referrerpolicy="no-referrer"></p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="44" src="./繁體超完整手算範例_files/3801213fb80e7bec942d80cc262eb9389b506b2c.jpg" width="111" referrerpolicy="no-referrer"></p>
+
+<p>將原資料降為一維，選擇最大的特徵值對應的特徵向量，因此P為：</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="26" src="./繁體超完整手算範例_files/a044ad345982b2b77c0ab6e938adcbef76099b02.jpg" width="155" referrerpolicy="no-referrer"></p>
+
+<p>降維後的資料：</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="26" src="./繁體超完整手算範例_files/79f0f736afc379313ef50f04e2c4b74543a91179.jpg" width="425" referrerpolicy="no-referrer"></p>
+
+
+
+<p>&nbsp;那麼，為什麼要求特徵值和特徵向量呢？</p>
+
+<h3>&nbsp;特徵值和特徵向量：</h3>
+
+
+
+<p>定義：&nbsp;設A是n階矩陣，如果數λ和n維非零向量x使關係式</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img alt="" class="img-fluid rounded" src="./繁體超完整手算範例_files/20160718101611619" referrerpolicy="no-referrer">……(1)</p>
+
+<p>成立，那麼，這樣的數λ稱為矩陣A的特徵值，非零向量x稱為A的對應於特徵值λ的特徵向量，（1）式還可以寫為 &nbsp;&nbsp;</p>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="" class="img-fluid rounded" src="./繁體超完整手算範例_files/20160718101749562" referrerpolicy="no-referrer">……（2）</p>
+
+<p>如果想求出矩陣對應的特徵值和特徵向量就是求式（2）的解了。</p>
+
+<p>那麼，問題來了，這個式子要怎麼理解呢？</p>
+
+<p>首先得先弄清矩陣的概念:一個矩陣代表的是一個線性變換規則，而一個矩陣的乘法執行代表的是一個變換;</p>
+
+<p>比如有一個矩陣A：</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" src="./繁體超完整手算範例_files/20160718101812219" referrerpolicy="no-referrer"></p>
+
+<p>一個列向量為X為：</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" src="./繁體超完整手算範例_files/20160718101823386" referrerpolicy="no-referrer"></p>
+
+<p>一個矩陣的乘法為：</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" src="./繁體超完整手算範例_files/20160718101902174" referrerpolicy="no-referrer"></p>
+
+<p>向量X通過矩陣A這個變化規則就可以變換為向量Y了</p>
+
+
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" src="./繁體超完整手算範例_files/20160718101937503" referrerpolicy="no-referrer"></p>
+
+
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="300" src="./繁體超完整手算範例_files/20181117172825554.png" width="450" referrerpolicy="no-referrer"></p>
+
+<p>&nbsp;知道了這個就可以從幾何上理解特徵值和特徵向量是什麼意思了，由 &nbsp;</p>
+
+
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" src="./繁體超完整手算範例_files/20160718102051683" referrerpolicy="no-referrer"></p>
+
+<p>可知:</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" src="./繁體超完整手算範例_files/20160718102125887" referrerpolicy="no-referrer"></p>
+
+<p>所以，確定了特徵值之後，向量x的變換為：&nbsp;</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="296" src="./繁體超完整手算範例_files/20181117173051637.png" width="440" referrerpolicy="no-referrer"></p>
+
+<p>引用《線性代數的幾何意義》的描述：“矩陣乘法對應了一個變換，是把任意一個向量變成另一個方向或長度都大多不同的新向量。在這個變換的過程中，原向量主要發生旋轉、伸縮的變化。如果矩陣對某一個向量或某些向量只發生伸縮變換，不對這些向量產生旋轉的效果，那麼這些向量就稱為這個矩陣的特徵向量，伸縮的比例就是特徵值。”</p>
+
+<p>那麼這樣定義的特徵值和特徵向量有什麼實際用途呢?在這裡我舉個數據挖掘演算法中重要的一個演算法：PCA（主成分分析）來給大家直觀的感受一下。</p>
+
+<p>首先，理解一下資訊量這個概念</p>
+
+<p>看幾張圖：</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="141" src="./繁體超完整手算範例_files/20181117173205557.png" width="479" referrerpolicy="no-referrer"></p>
+
+<p>如果我們單獨看某一個維度的話，比如看x1這個維度</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="122" src="./繁體超完整手算範例_files/20181117173235617.png" width="461" referrerpolicy="no-referrer"></p>
+
+<p>可以看到將點投影到x1這個維度上看的話，圖1的資料離散性最高，圖3較低，圖2資料離散性是最低的。資料離散性越大，代表資料在所投影的維度上具有越高的區分度，這個區分度就是資訊量。如果我們用方差來形容資料的離散性的話，就是資料方差越大，表示資料的區分度越高，也就是蘊含的資訊量是越大的。</p>
+
+<p>&nbsp;基於這個知識，如果我們想對資料進行降維的話，比如圖1的兩個維度的資料降成一維，我們可以選擇保留X1這個維度的資料，因為在這個維度上蘊含的資訊量更多。</p>
+
+<p>同理，圖2就可以保留x2這個維度的資料。但是，問題來了，圖3應該保留哪個維度的資料呢？答案是保留哪個維度都不好，都會丟失較大的資訊量。但是，如果我們把圖3的座標軸旋轉一下</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" height="133" src="./繁體超完整手算範例_files/2018111717332939.png" width="437" referrerpolicy="no-referrer"></p>
+
+<p>比較容易看出，圖3在新的座標軸下就能進行降維了。所以選取正確的座標軸，然後根據各個維度上的資料方差大小，決定保留哪些維度的資料，這樣的做法就是主成分分析的核心思想。</p>
+
+<p>選取正確的座標軸的過程中，我們需要一個矩陣變換，就類似於這樣： &nbsp;&nbsp;</p>
+
+
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" src="./繁體超完整手算範例_files/20160718102249680" referrerpolicy="no-referrer"></p>
+
+<p>也就是：</p>
+
+<p style="text-align:center;"><img alt="" class="img-fluid rounded" src="./繁體超完整手算範例_files/20160718102303497" referrerpolicy="no-referrer"></p>
+
+<p>其實，經過數學上的推導的，我們就可以知道，<span style="color:#86ca5e;">特徵值對應的特徵向量就是理想中想取得正確的座標軸，而特徵值就等於資料在旋轉之後的座標上對應維度上的方差</span>。</p>
+
+<p>也就是說，直接求出矩陣A的特徵向量得出對應的特徵向量。我們就能找到旋轉後正確的座標軸。這個就是特徵值和特徵向量的一個實際應用：“得出使資料在各個維度區分度達到最大的座標軸。”</p>
+
+<p><span style="color:#86ca5e;">所以，在資料探勘中，就會直接用特徵值來描述對應特徵向量方向上包含的資訊量，而某一特徵值除以所有特徵值的和的值就為：該特徵向量的方差貢獻率（方差貢獻率代表了該維度下蘊含的資訊量的比例）。</span></p>
+
+<p>通常經過特徵向量變換下的資料被稱為變數的主成分，當前m個主成分累計的方差貢獻率達到一個較高的百分數（如85%以上）的話，就保留著這m個主成分的資料。實現了對資料進行降維的目的。整個主成分分析的演算法原理也就是這個。</p>            </div>
+                
+        
+	 <center><ins id="scupio-sc-4995-17522-26274" class="scupioadslot" style="display: inline-block; width: 300px; height: 250px; position: relative;" data-sca-pub="lRIJBAgyQA==" data-sca-web="4995" data-sca-category="17" data-sca-cid="17522" data-sca-slot-type="PRA" data-sca-status="done" undefined="1"><iframe name="scupioadframe" marginwidth="0" marginheight="0" frameborder="0" id="scupio-sc-4995-17522-26274_frame" src="./繁體超完整手算範例_files/ad(2).html" style="box-sizing: content-box; overflow: hidden; border: 0px; padding: 0px; margin: 0px; width: 300px; height: 250px; display: block;"></iframe><span id="viewability_detector_17522" style="position: absolute; z-index: -99999; background-color: transparent; left: 50%; top: 50%; width: 1px; height: 1px;"></span></ins>
+<script async="" src="./繁體超完整手算範例_files/ad.js.下載"></script>
+<script>
+(function(s, c, u, p, i, o, a, d) {
+    'use strict';
+    var z=function(t,e,r){var a,n=document.createElement('ins'),s=n.style;for(a in n.className='scupioadslot',r&&(n.id=r),t)t.hasOwnProperty(a)&&(s[a]=t[a]);for(a in e)e.hasOwnProperty(a)&&n.setAttribute('data-sca-'+a,e[a]);return n};
+    (d = s.Scupioads = s.Scupioads || []).push({
+        id: u,
+        callback: function() {
+            p = c.getElementById(u);
+            i = p.style;
+            o = 'inline-block';
+            p.appendChild(z({
+                display: o,
+                width: '300px',
+                height: '250px',
+                margin: 'auto'
+            }, {
+                'pub': 'lRIJBAgyQA==',
+                'web': '4995',
+                'category': '17',
+                'cid': '17523',
+                'slot-type': 'STA'
+            }));
+            i.width = '300px';
+            i.height = '250px';
+            i.display = o;
+        }
+    });
+    setTimeout(function(){if(!s.Scupioads.init)for(i=d.length-1;0<=i;i--)if(d[i].id===u){d[i].callback(),d[i].callback=function(){};break}},1e3);
+})(window, document, 'scupio-sc-4995-17522-26274');
+</script></center>
+          <nav class="pagination group">
+                      </nav><!--/.pagination-->
+        </div>
+
+    
+        <div class="clear"></div>
+      </div><!--/.entry-->
+
+    </div><!--/.post-inner-->
+  </article><!--/.post-->
+
+<div class="clear"></div>
+
+<p class="post-tags"><span>標籤：</span>  </p>
+
+<center>
+</center>
+
+
+<h4 class="heading">
+	<i class="far fa-hand-point-right"></i>您可能也會喜歡…</h4>
+
+ <ul class="lrelated-posts group">
+		 	<li><a href="https://www.itread01.com/content/1545419720.html" target="_blank">主成分分析PCA以及特徵值和特徵向量的意義</a> </li>
+    	<li><a href="https://www.itread01.com/content/1546321336.html" target="_blank">主元分析(PCA)理論分析及應用</a> </li>
+    	<li><a href="https://www.itread01.com/content/1541876966.html" target="_blank">【Mark Schmidt課件】機器學習與資料探勘——主元分析PCA</a> </li>
+    	<li><a href="https://www.itread01.com/content/1520790010.html" target="_blank">Python 振動分析 叠代法計算高階特征值及特征向量</a> </li>
+    	<li><a href="https://www.itread01.com/content/1558267383.html" target="_blank">文字情感分析(二)：基於word2vec和glove詞向量的文字表示</a> </li>
+    	<li><a href="https://www.itread01.com/content/1549408346.html" target="_blank">黑馬程式設計師-OC學習筆記-點方法、成員變數作用域以及set方法和get方法@property的綜合題</a> </li>
+    	<li><a href="https://www.itread01.com/content/1547075886.html" target="_blank">矩陣特徵分解介紹及雅克比(Jacobi)方法實現特徵值和特徵向量的求解(C++/OpenCV/Eigen)</a> </li>
+    	<li><a href="https://www.itread01.com/content/1545457084.html" target="_blank">Mac下idea從零建立springboot專案以及整合mybatis和mybatis逆向生成工具-springboot(1)</a> </li>
+    	<li><a href="https://www.itread01.com/content/1548665647.html" target="_blank">java 檔案下載後中文名亂碼以及特殊字元被轉義的問題</a> </li>
+    	<li><a href="https://www.itread01.com/content/1547775556.html" target="_blank">Android橫豎屏切換, 手機鎖屏以及按Home鍵和返回鍵時的Activity的生命週期</a> </li>
+    	<li><a href="https://www.itread01.com/content/1546051026.html" target="_blank">JavaScipt 中的事件迴圈(event loop)，以及微任務 和巨集任務的概念</a> </li>
+    	<li><a href="https://www.itread01.com/content/1544715370.html" target="_blank">JavaScipt 中的事件迴圈機制，以及微任務 和巨集任務的概念</a> </li>
+    	<li><a href="https://www.itread01.com/content/1541661004.html" target="_blank">關於extern以及原始檔和標頭檔案的應用</a> </li>
+    	<li><a href="https://www.itread01.com/content/1522866535.html" target="_blank">文件流的使用以及序列化和反序列化的方法使用</a> </li>
+    	<li><a href="https://www.itread01.com/content/1549427431.html" target="_blank">Linux下Makefile的編寫及四個特殊符號的意義@、</a><a href="https://www.itread01.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="062246">[email&nbsp;protected]</a>、$^、$ </li>
+     
+</ul><!--/.post-related-->
+
+
+
+        </div><!--/.pad-->
+        </section><!--/.content-->
+          
+
+	<div class="sidebar s1 collapsed" data-position="right" data-layout="col-2cl" data-sb-id="s1" style="transform: translateZ(0px);">
+
+		<a class="sidebar-toggle" title="延伸側邊欄位" style="transform: translate(0px, 0px);"><i class="fas icon-sidebar-toggle"></i></a>
+
+		<div class="sidebar-content" style="transform: translate(0px, 0px);">
+
+			  			<div class="sidebar-top group">
+                        <p>贊助商廣告</p>
+             
+           			</div>
+		 
+				<ul class="post-nav group">
+      
+ 
+		<li class="previous"> </li>
+  
+  
+		 <li class="next">  </li>
+ 
+	</ul>
+
+<div id="custom_html-3" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><!-- /109765683/300x250 -->
+<ins id="scupio-sc-4995-17521-400386" class="scupioadslot" style="display: inline-block; width: 300px; height: 250px; position: relative;" data-sca-pub="lRIJBAgyQA==" data-sca-web="4995" data-sca-category="17" data-sca-cid="17521" data-sca-slot-type="PRA" data-sca-status="done" undefined="0"><iframe name="scupioadframe" marginwidth="0" marginheight="0" frameborder="0" id="scupio-sc-4995-17521-400386_frame" src="./繁體超完整手算範例_files/ad(3).html" style="box-sizing: content-box; overflow: hidden; border: 0px; padding: 0px; margin: 0px; width: 300px; height: 250px; display: block;"></iframe><span id="viewability_detector_17521" style="position: absolute; z-index: -99999; background-color: transparent; left: 50%; top: 50%; width: 1px; height: 1px;"></span></ins>
+<script async="" src="./繁體超完整手算範例_files/ad.js.下載"></script>
+<script>
+(function(s, c, u, p, i, o, a, d) {
+    'use strict';
+    var z=function(t,e,r){var a,n=document.createElement('ins'),s=n.style;for(a in n.className='scupioadslot',r&&(n.id=r),t)t.hasOwnProperty(a)&&(s[a]=t[a]);for(a in e)e.hasOwnProperty(a)&&n.setAttribute('data-sca-'+a,e[a]);return n};
+    (d = s.Scupioads = s.Scupioads || []).push({
+        id: u,
+        callback: function() {
+            p = c.getElementById(u);
+            i = p.style;
+            o = 'inline-block';
+            p.appendChild(z({
+                display: o,
+                width: '300px',
+                height: '250px',
+                margin: 'auto'
+            }, {
+                'pub': 'lRIJBAgyQA==',
+                'web': '4995',
+                'category': '17',
+                'cid': '17518',
+                'slot-type': 'STA'
+            }));
+            i.width = '300px';
+            i.height = '250px';
+            i.display = o;
+        }
+    });
+    setTimeout(function(){if(!s.Scupioads.init)for(i=d.length-1;0<=i;i--)if(d[i].id===u){d[i].callback(),d[i].callback=function(){};break}},1e3);
+})(window, document, 'scupio-sc-4995-17521-400386');
+</script>
+</div></div><div id="text-7" class="widget widget_text">			 
+		</div>
+        
+        <div id="alxtabs-2" class="widget widget_hu_tabs">
+<h3 class="widget-title"></h3>
+<ul class="alx-tabs-nav group tab-count-3"><li class="alx-tab tab-recent active"><a href="https://www.itread01.com/content/1545419720.html#tab-recent-2" title="熱門文章"><i class="far fa-clock"></i></a></li><li class="alx-tab tab-tags"><a href="https://www.itread01.com/content/1545419720.html#tab-tags-2" title="標籤"><i class="fas fa-star"></i> </a></li></ul>
+	<div class="alx-tabs-container">						
+			<ul id="tab-recent-2" class="alx-tab group" style="display: block;">
+								 
+					      
+                  <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="https://www.itread01.com/content/1545419722.html">vultr搭建SSR </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="https://www.itread01.com/content/1545419725.html">springmvc處理請求詳解與原始碼分析 </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="https://www.itread01.com/content/1545419726.html">Ffmpeg 將視訊分解成多張圖片以及多張圖片合成視訊 </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="https://www.itread01.com/content/1545419728.html">【演算法】給定兩個字串，確定一個字串重新排列後能否變成另一個字串（java實現） </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="https://www.itread01.com/content/1545419732.html">python-opencv 色彩空間轉換以及找到特定顏色 </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="https://www.itread01.com/content/1545419733.html">Python中的分支和迴圈 </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="https://www.itread01.com/content/1545419734.html">51微控制器【三】靜態驅動數碼管 </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="https://www.itread01.com/content/1545419735.html">c語言中 “=”和”==“的區別 </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="https://www.itread01.com/content/1545419736.html">安卓專案實戰之沉浸式狀態列的實現 </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="https://www.itread01.com/content/1545419763.html">大學生都經歷過的圖書管理系統（Mysql+MyEclipse+Struts2+Hibernate）--附帶原始碼喲！ </a></p>
+										</div>
+				</li>
+                
+                
+  	 
+				</ul><!--/.alx-tab-->
+
+			<ul id="tab-tags-2" class="alx-tab group" style="display: none;">
+				<li>
+					<a href="https://www.itread01.com/android/" class="tag-cloud-link tag-link-9 tag-link-position-1" style="font-size: 12.15625pt;">Android</a> 	
+					<a href="https://www.itread01.com/study/itools_download.html" class="tag-cloud-link tag-link-9 tag-link-position-1" style="font-size: 12.15625pt;">iTools</a> 
+					<a href="https://www.itread01.com/mysql/" class="tag-cloud-link tag-link-9 tag-link-position-1" style="font-size: 12.15625pt;">Mysql</a> 
+					<a href="https://www.itread01.com/windows/" class="tag-cloud-link tag-link-9 tag-link-position-1" style="font-size: 12.15625pt;">Windows</a> 
+					<a href="https://www.itread01.com/ios/" class="tag-cloud-link tag-link-9 tag-link-position-1" style="font-size: 12.15625pt;">IOS</a> 
+					<a href="https://www.itread01.com/%E7%A8%8B%E5%BC%8F/" class="tag-cloud-link tag-link-9 tag-link-position-1" style="font-size: 12.15625pt;">程式</a> 
+                   </li>
+			</ul><!--/.alx-tab-->
+
+			</div>
+</div>
+		</div><!--/.sidebar-content-->
+
+	</div><!--/.sidebar-->
+
+	
+
+        </div><!--/.main-inner-->
+      </div><!--/.main-->
+    </div><!--/.container-inner-->
+  </div><!--/.container-->
+    <footer id="footer">
+          <nav class="nav-container group" id="nav-footer" data-menu-id="footer-4" data-menu-scrollable="false">
+                      <!-- <div class="ham__navbar-toggler collapsed" aria-expanded="false">
+          <div class="ham__navbar-span-wrapper">
+            <span class="ham-toggler-menu__span"></span>
+          </div>
+        </div> -->
+        <div class="ham__navbar-toggler-two collapsed" title="Menu" aria-expanded="false">
+          <div class="ham__navbar-span-wrapper">
+            <span class="line line-1"></span>
+            <span class="line line-2"></span>
+            <span class="line line-3"></span>
+          </div>
+        </div>
+                    <div class="nav-text"></div>
+        <div class="nav-wrap">
+          <ul id="menu-top-2" class="nav container group">
+           <li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.itread01.com/" rel="nofollow">首頁</a></li>
+		   <li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.itread01.com/study/python-tutorial.html">Python教學</a></li>
+ 
+</ul>        </div>
+      </nav><!--/#nav-footer-->
+    
+    <section class="container" id="footer-bottom">
+      <div class="container-inner">
+
+        <a id="back-to-top" href="https://www.itread01.com/content/1545419720.html#"><i class="fas fa-angle-up"></i></a>
+
+        <div class="pad group">
+
+          <div class="grid one-half">
+                        
+            <div id="copyright">
+                              <p>ITREAD01.COM © 2018. 版權所有。 </p>
+                          </div><!--/#copyright-->
+          </div>
+        </div><!--/.pad-->
+
+      </div><!--/.container-inner-->
+    </section><!--/.container-->
+
+  </footer><!--/#footer-->
+
+</div><!--/#wrapper-->
+
+<!-- Powered by WPtouch: 4.3.27 --><script type="text/javascript" src="./繁體超完整手算範例_files/jQuerySharrre.min.js.下載"></script>
+<script type="text/javascript" src="./繁體超完整手算範例_files/underscore.min.js.下載"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var HUParams = {"_disabled":[],"SmoothScroll":{"Enabled":true,"Options":{"touchpadSupport":false}},"centerAllImg":"1","timerOnScrollAllBrowsers":"1","extLinksStyle":"1","extLinksTargetExt":"1","extLinksSkipSelectors":{"classes":["btn","button"],"ids":[]},"imgSmartLoadEnabled":"","imgSmartLoadOpts":{"parentSelectors":[".container .content",".container .sidebar","#footer","#header-widgets"],"opts":{"excludeImg":[".tc-holder-img"],"fadeIn_options":100}},"goldenRatio":"1.618","gridGoldenRatioLimit":"350","sbStickyUserSettings":{"desktop":true,"mobile":false},"isWPMobile":"","menuStickyUserSettings":{"desktop":"stick_up","mobile":"stick_up"},"isDevMode":"","ajaxUrl":"https:\/\/www.itread01.com\/?huajax=1","frontNonce":{"id":"HuFrontNonce","handle":"d9125fec3b"},"userStarted":{"with":"with|3.3.27","on":{"date":"2018-03-27 03:41:18.000000","timezone_type":3,"timezone":"UTC"}},"isWelcomeNoteOn":"","welcomeContent":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./繁體超完整手算範例_files/scripts.min.js.下載"></script>
+<script type="text/javascript" src="./繁體超完整手算範例_files/wp-embed.min.js.下載"></script>
+
+<!--[if lt IE 9]>
+<script src="/img/css/js/respond.js"></script>
+<![endif]-->
+<div style="display:none"><script type="text/javascript" src="./繁體超完整手算範例_files/c.js.下載"></script><script src="./繁體超完整手算範例_files/z_stat.php" language="JavaScript"></script><script src="./繁體超完整手算範例_files/core.php" charset="utf-8" type="text/javascript"></script><a href="https://www.cnzz.com/stat/website.php?web_id=1275098034" target="_blank" title="站长统计">站长统计</a>
+0.39718508720398</div>
+
+    <!-- Bootstrap core JavaScript ================================================== -->
+        <script src="./繁體超完整手算範例_files/jquery.min.js(1).下載"></script>
+     
+        <!-- Placed at the end of the document so the pages load faster -->
+        
+
+<script src="./繁體超完整手算範例_files/highlight.min.js.下載"></script>
+<script>
+function joinUrl(url, concat) {
+  var url1 = url.split('/');
+  var url2 = concat.split('/');
+  var url3 = [ ];
+  for (var i = 0, l = url1.length; i < l; i ++) {
+    if (url1[i] == '..') {
+      url3.pop();
+    } else if (url1[i] == '.') {
+      continue;
+    } else {
+      url3.push(url1[i]);
+    }
+  }
+  for (var i = 0, l = url2.length; i < l; i ++) {
+    if (url2[i] == '..') {
+      url3.pop();
+    } else if (url2[i] == '.') {
+      continue;
+    } else {
+      url3.push(url2[i]);
+    }
+  }
+  return url3.join('/');
+}
+$(document).ready(function() {
+    $('pre').each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+	var source = $('#source-url').html();
+	if(source.indexOf('segmentfault.com') > 0) {
+		var imgs = $('#main-content').find('img');
+		$.each(imgs, function(index, img) {
+			var data_src = $(img).attr('data-src');
+			data_src = 'https://segmentfault.com' + data_src;
+			console.log(data_src);
+			$(img).attr('src', data_src);
+			// $(img).attr('src', '');
+		});
+	}
+});
+</script></body></html>
